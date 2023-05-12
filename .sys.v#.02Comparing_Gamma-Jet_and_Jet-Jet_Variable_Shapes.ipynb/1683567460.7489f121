@@ -1,0 +1,101 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "7de7a882",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import uproot\n",
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import boost_histogram as bh\n",
+    "import matplotlib.pyplot as plt\n",
+    "%matplotlib inline"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "214930b7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "folder = '/eos/atlas/atlascerngroupdisk/perf-egamma/InclusivePhotons'\n",
+    "branches = ['evtWeight', 'y_passOQ', 'y_pt', 'y_eta', 'y_isTruthMatchedPhoton', 'y_Rhad', 'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 'y_Eratio', 'y_f1']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "28e7a5b6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Loading in Files\n",
+    "gamjetfile = uproot.open(folder+'/mc21_gammajet_v02/PyPt17_mc21_800664.root', entrystop=1000)\n",
+    "jetjetfile = uproot.open(folder+'/mc21_jetjet_v02/Py8_jetjet_mc21_801279_p5057_Rel22_AB22.2.50_v02.root', entrystop=1000)\n",
+    "\n",
+    "gamjetSP = gamjetfile['SinglePhoton']\n",
+    "jetjetSP = jetjetfile['SinglePhoton']\n",
+    "\n",
+    "df_gj = gamjetSP.arrays(branches,library='pd')\n",
+    "df_jj = jetjetSP.arrays(branches,library='pd')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "811d605d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#Histogram Style (ATLAS)\n",
+    "# import matplotlib.pyplot as plt\n",
+    "# plt.style.use('/eos/user/h/hrussell/ATLAS.mplstyle')  #if heather shares with me\n",
+    "\n",
+    "# import matplotlib.font_manager as font_manager\n",
+    "# font_dirs = ['/eos/user/h/hrussell/helvetica_font/']\n",
+    "# font_files = font_manager.findSystemFonts(fontpaths=font_dirs)\n",
+    "\n",
+    "# for font_file in font_files:\n",
+    "#     try:\n",
+    "#         font_manager.fontManager.addfont(font_file)\n",
+    "#         print (\"added\",font_file)\n",
+    "#     except:\n",
+    "#         print(\"cannot add\",font_file)\n",
+    "# #font_manager.fontManager.ttflist.extend(font_list)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c77f6b1e",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.12"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
