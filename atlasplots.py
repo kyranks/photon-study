@@ -48,13 +48,13 @@ minmaxlist =[(-0.5, 5),
 
 #----------------------------------------------------------------------------
 
-def fileloader(filepath,branches,TTree='SinglePhoton'):
+def fileloader(filepath,branches,TTree='SinglePhoton',entry_stop=1000,entry_start=None):
     '''for Single Photon root files
     returns a pandas DataFrame'''
     
     file = uproot.open(filepath)
     fileSP = file[TTree]
-    dataframe = fileSP.arrays(branches,library='pd')
+    dataframe = fileSP.arrays(branches,library='pd',entry_stop=entry_stop,entry_start=entry_start)
     
     return dataframe
 
@@ -80,7 +80,7 @@ def atlasstyle():
 
 #-------------------------------------------------------------------------
 
-def makebh(dataframe,branchname,minmax,bins=100,boolslice=[],weightname='mcWeight'):
+def makebh(dataframe,branchname,minmax,bins=100,boolslice=[],weightname='mcTotWeight'):
     '''a general version of 'makebh', spits out only one boostHistogram
     
     dataframe is the the dataframe (pandas DataFrame)
@@ -91,12 +91,34 @@ def makebh(dataframe,branchname,minmax,bins=100,boolslice=[],weightname='mcWeigh
         for example: boolslice = dataframe.y_convType == 0 for converted
     weightname is the (str) of the key for the weights in the DataFrame dataframe.
     
-    could still fix to take boolslice as list/array instead of str. then wouldnt have to do exec
     '''
     minn = minmax[0]
     maxx = minmax[1]
     
     histo = bh.Histogram(bh.axis.Regular(bins,minn,maxx),storage=bh.storage.Weight()) 
+    
+    if bool(list(boolslice)) == True:
+        histo.fill(dataframe[branchname][boolslice], weight=dataframe[weightname][boolslice])
+    else:
+        histo.fill(dataframe[branchname], weight=dataframe[weightname])
+    
+    return histo
+
+#--------------------------------------------------------------------------------------
+
+
+def makebhvar(dataframe,branchname,binedges,boolslice=[],weightname='goodWeight'):
+    '''a variable binning version of 'makebh', spits out only one boostHistogram
+    
+    dataframe is the the dataframe (pandas DataFrame)
+    branchname is the name of the wanted branch (str)
+    binedges is a list of bin edges, one more than number of bins
+    boolslice is an optional boolean (list/array/Series) argument (boolean mask), if a slice of the data is wanted,
+        for example: boolslice = dataframe.y_convType == 0 for converted
+    weightname is the (str) of the key for the weights in the DataFrame dataframe.
+    
+    '''
+    histo = bh.Histogram(bh.axis.Variable(binedges),storage=bh.storage.Weight()) 
     
     if bool(list(boolslice)) == True:
         histo.fill(dataframe[branchname][boolslice], weight=dataframe[weightname][boolslice])
@@ -329,15 +351,20 @@ def makehadlist(df_name):
     df_name is the dataframe
     
     ***could remake this function to just append to the list instead of 
-    inserting at specific indices (as long as it goes through everything in order)***'''
+    inserting at specific indices (as long as it goes through everything in order)***
+    
+    -- df['column'].iloc[i] is used because indexing of a pandas series works differently than df['column'][i]'''
     
     hadleaklist = [False] * len(df_name['y_eta'])
     
+#     print(np.array(df_name['y_eta']))
+    
     for i in range(len(df_name['y_eta'])):
-        if abs(df_name['y_eta'][i]) < 0.8 or abs(df_name['y_eta'][i]) > 1.37:
-            hadleaklist[i] = df_name['y_Rhad1'][i]
+#         print(abs(df_name['y_eta'].iloc[i]))
+        if abs(df_name['y_eta'].iloc[i]) < 0.8 or abs(df_name['y_eta'].iloc[i]) > 1.37:
+            hadleaklist[i] = df_name['y_Rhad1'].iloc[i]
         else:
-            hadleaklist[i] = df_name['y_Rhad'][i]
+            hadleaklist[i] = df_name['y_Rhad'].iloc[i]
          
     return hadleaklist
         
@@ -352,3 +379,90 @@ def picklewrite(file,filename,filepath='picklefiles/'):
     
     if want file in present directory, set filepath='' '''
     pickle.dump(file,open(filepath+filename, 'wb'))
+    
+    
+    
+#--------------------------------------------------------------------------------------------------------
+
+
+def evenodd(df_name):
+    '''separates input dataframe df_name into even events and odd events, by index
+    returns (even_df, odd_df)'''
+    evenlist = []
+    oddlist = []
+    for i in range(len(df_name)):
+        if i%2 == 0:
+            evenlist.append(i)
+        else:
+            oddlist.append(i)
+            
+    even = df_name.loc[evenlist]
+    odd =  df_name.loc[oddlist]
+    
+    return even, odd
+
+
+#-------------------------------------------------------------------------------------------------------
+
+
+def histvals(hist1,norm=False):
+    '''returns the values of the histogram bins of hist (bh_Histogram)
+    
+    norm = False (default) means its the number of events
+    norm = True means its the fraction of events'''
+    
+    integral1 = hist1.sum().value
+    
+    if norm:
+        vals = hist1.view().value/integral1
+    elif ~norm:
+        vals = hist1.view().value
+    return vals
+
+
+#--------------------------------------------------------------------------------------------------------
+
+
+def reweight(df,binedges,ratiolist,PTorETA='y_pt',sigorbkg='sig'):
+    '''returns list of weights associated with applying
+    binned weighting to the events in df_sig
+    
+    binedges is list of bin edges, length i+1
+    ratiolist is list of reweighting ratios for each bin, length i
+    PTorETA can be 'y_pt' (default) or 'y_eta' (or 'abs_eta' if made)
+    sigorbkg can be 'sig' (default) or 'bkg'
+        - this chooses whether the weighting is applied to the signal events or bkg events
+    '''
+    
+    if sigorbkg == 'sig':
+        truthsig = True
+    elif sigorbkg == 'bkg':
+        truthsig = False
+    else:
+        print('please pick \'sig\' or \'bkg\' for <sigorbkg>')
+        return None
+    
+    eventlist = np.array(df[PTorETA])
+    sigbkglist = np.array(df['y_isTruthMatchedPhoton'])
+    reweightlist = []
+    
+    for event,sigbkg in zip(eventlist,sigbkglist):
+        if sigbkg == truthsig:
+            for i in range(len(ratiolist)):
+                if (event>=binedges[i]) & (event<binedges[i+1]):
+                    reweightlist.append(ratiolist[i])
+        elif sigbkg != truthsig:
+            reweightlist.append(1.)
+        else:
+            print('it should never get here, fix your code')
+            return None
+                
+#     print('\nsize of eventlist: ',len(eventlist))
+#     print('size of rewweightlist: ', len(reweightlist))
+#     print('should match \n')
+    
+    return reweightlist
+
+
+#--------------------------------------------------------------------------------------------------------
+
