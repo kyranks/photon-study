@@ -52,11 +52,12 @@ def fileloader(filepath,branches,TTree='SinglePhoton',entry_stop=1000,entry_star
     '''for Single Photon root files
     returns a pandas DataFrame'''
     
-    file = uproot.open(filepath)
-    fileSP = file[TTree]
-    dataframe = fileSP.arrays(branches,library='pd',entry_stop=entry_stop,entry_start=entry_start)
+    with uproot.open(filepath) as file:
+#         file = uproot.open(filepath)
+        fileSP = file[TTree]
+        dataframe = fileSP.arrays(branches,library='pd',entry_stop=entry_stop,entry_start=entry_start)
     
-    return dataframe
+        return dataframe
 
 
 #----------------------------------------------------------------------------
@@ -345,26 +346,26 @@ def ATLAShist4(hist1,hist2,h1nc,h2nc,label='variable name',minmax=[-2,2],figname
 
 
 def makehadlist(df_name):
-    '''Makes the list of values for the combined HadLeakage variable
+    '''Makes the array of values for the combined HadLeakage variable
     where HadLeakage = Rhad if 0.8<|eta|<1.37   and   
                        Rhad1 elsewhere
     df_name is the dataframe
     
-    ***could remake this function to just append to the list instead of 
-    inserting at specific indices (as long as it goes through everything in order)***
-    
-    -- df['column'].iloc[i] is used because indexing of a pandas series works differently than df['column'][i]'''
+    !now vectorized!'''
     
     hadleaklist = [False] * len(df_name['y_eta'])
     
-#     print(np.array(df_name['y_eta']))
+    abseta = np.array(abs(df_name['y_eta']))
+    bins = [0, 0.8, 1.37, float('inf')]
+    labels = [False,True,False]  #True if Rhad, False if Rhad1
     
-    for i in range(len(df_name['y_eta'])):
-#         print(abs(df_name['y_eta'].iloc[i]))
-        if abs(df_name['y_eta'].iloc[i]) < 0.8 or abs(df_name['y_eta'].iloc[i]) > 1.37:
-            hadleaklist[i] = df_name['y_Rhad1'].iloc[i]
-        else:
-            hadleaklist[i] = df_name['y_Rhad'].iloc[i]
+    Rhadbool = np.array(pd.cut(abseta,bins,labels=labels,include_lowest=True,ordered=False))  #True if Rhad, False if Rhad1
+    Rhad1list = np.array(df_name['y_Rhad1'])
+    Rhadlist = np.array(df_name['y_Rhad'])
+    
+    hadleaklist = np.array([0.]*len(abseta))
+    hadleaklist[Rhadbool] = Rhadlist[Rhadbool]
+    hadleaklist[~Rhadbool] = Rhad1list[~Rhadbool]
          
     return hadleaklist
         
@@ -423,9 +424,14 @@ def histvals(hist1,norm=False):
 #--------------------------------------------------------------------------------------------------------
 
 
+
 def reweight(df,binedges,ratiolist,PTorETA='y_pt',sigorbkg='sig'):
-    '''returns list of weights associated with applying
+    '''returns array of weights associated with applying
     binned weighting to the events in df_sig
+    
+    !now vectorized!
+    
+    this function chooses which events to apply which weights to
     
     binedges is list of bin edges, length i+1
     ratiolist is list of reweighting ratios for each bin, length i
@@ -444,25 +450,43 @@ def reweight(df,binedges,ratiolist,PTorETA='y_pt',sigorbkg='sig'):
     
     eventlist = np.array(df[PTorETA])
     sigbkglist = np.array(df['y_isTruthMatchedPhoton'])
-    reweightlist = []
     
-    for event,sigbkg in zip(eventlist,sigbkglist):
-        if sigbkg == truthsig:
-            for i in range(len(ratiolist)):
-                if (event>=binedges[i]) & (event<binedges[i+1]):
-                    reweightlist.append(ratiolist[i])
-        elif sigbkg != truthsig:
-            reweightlist.append(1.)
-        else:
-            print('it should never get here, fix your code')
-            return None
-                
-#     print('\nsize of eventlist: ',len(eventlist))
-#     print('size of rewweightlist: ', len(reweightlist))
-#     print('should match \n')
+    reweightlist = np.array(pd.cut(eventlist,binedges,labels=ratiolist,ordered=False))
+    
+    if truthsig == True:
+        reweightlist[~sigbkglist] = 1.
+    elif truthsig == False:
+        reweightlist[sigbkglist] = 1.
+    else:
+        print('it should never get here, fix your code')
+        return None
     
     return reweightlist
 
 
 #--------------------------------------------------------------------------------------------------------
 
+def weightmaker(df,variable,binedges,inputweight='goodWeight'):
+    '''returns an array of weights, such that
+    the signal and background of DataFrame <df> are equal in counts
+    of p_t (E_T) bins or eta bins
+    
+    df is DataFrame
+    variable (str) is name of column to equalize counts to (e.g. 'abs_eta' or 'y_pt')
+    binedges (list) is a list of the bin edges
+    inputweight (str) is the name of the weight to start with (usually either 'goodWeight' or 'newWeight')
+    
+    reweights the signal events to match background events in binned counts of <variable>
+    '''
+    
+    sigvar = makebhvar(df,variable,binedges,boolslice=df.y_isTruthMatchedPhoton,weightname=inputweight)
+    bkgvar = makebhvar(df,variable,binedges,boolslice=~df.y_isTruthMatchedPhoton,weightname=inputweight)
+    bkgvals = histvals(bkgvar)    #not normed, right?
+    sigvals = histvals(sigvar)
+    ratioforsig = bkgvals/sigvals #will have some nans and infs
+    df[variable+'Weight'] = reweight(df,binedges,ratioforsig,variable)
+    
+    return np.multiply( np.array(df[inputweight]), np.array(df[variable+'Weight']) )
+
+
+#---------------------------------------------------------------------------------------------------------

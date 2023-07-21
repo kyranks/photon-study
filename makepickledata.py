@@ -7,6 +7,24 @@ import boost_histogram as bh
 import matplotlib.pyplot as plt
 import pickle
 import atlasplots as ap
+import sys
+import time
+import gc
+
+
+#args: entry_start, entry_stop, version   #FIGURE THIS OUT WITH argparse LATER
+
+if sys.argv[1] == 'None'
+    entry_start = None
+else:
+    entry_start = int(sys.argv[1])
+#----------------------------------------
+if sys.argv[2] == 'None'
+    entry_stop = None
+else:
+    entry_stop = int(sys.argv[2])
+#----------------------------------------
+version = sys.argv[3]
 
 
 folder = '/eos/atlas/atlascerngroupdisk/perf-egamma/InclusivePhotons'
@@ -15,8 +33,8 @@ branches = ['evtWeight', 'mcWeight', 'mcTotWeight', 'yWeight', 'y_passOQ', 'y_pt
             'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1']
 
 
-entry_start = -25000001  #None if want default all, neg if counting from end (ex. -1000)
-entry_stop = -1      #None if want defalut all, neg if counting from end (ex. -1)
+# entry_start = -25000001  #None if want default all, neg if counting from end (ex. -1000)
+# entry_stop = -1      #None if want defalut all, neg if counting from end (ex. -1)
 
 
 
@@ -191,7 +209,7 @@ print('conv. (even, odd) -- ', df_evenc.shape, df_oddc.shape)
 print('unconv. (even, odd) -- ', df_evenu.shape, df_oddu.shape)
 print()
 
-# REWEIGHTING TO EQUALIZE ETA and E_T DISTRIBUTIONS ------------------------------------------------  TO DO: turn this into a function
+# REWEIGHTING TO EQUALIZE ETA and E_T DISTRIBUTIONS ------------------------------------------------
 
 binedgesETA = [0,0.6,0.8,1.15,1.37,1.52,1.81,2.01,2.37]
 binedgesET = [0,25,30,35,40,45,50,60,80,100,120,200,500,10000]
@@ -199,86 +217,32 @@ binedgesET = [0,25,30,35,40,45,50,60,80,100,120,200,500,10000]
 # FIRST, even unconverted
 
 df_evenu['abs_eta'] = abs(df_evenu.y_eta)
-sigvarETA = ap.makebhvar(df_evenu,'abs_eta',binedgesETA,boolslice=df_evenu.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvarETA = ap.makebhvar(df_evenu,'abs_eta',binedgesETA,boolslice=~df_evenu.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvalsETA = ap.histvals(bkgvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsETA = ap.histvals(sigvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
-df_evenu['etaWeight'] = ap.reweight(df_evenu,binedgesETA,ratioforsigETA,'abs_eta')
-df_evenu['newWeight'] = np.multiply( np.array(df_evenu.goodWeight), np.array(df_evenu.etaWeight) )
-
-sigvarET = ap.makebhvar(df_evenu,'y_pt',binedgesET,boolslice=df_evenu.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvarET = ap.makebhvar(df_evenu,'y_pt',binedgesET,boolslice=~df_evenu.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvalsET = ap.histvals(bkgvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsET = ap.histvals(sigvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
-df_evenu['etWeight'] = ap.reweight(df_evenu,binedgesET,ratioforsigET,'y_pt')
-df_evenu['finalWeight'] = np.multiply( np.array(df_evenu.newWeight), np.array(df_evenu.etWeight) )
+df_evenu['newWeight'] = ap.weightmaker(df_evenu,'abs_eta',binedgesETA,'goodWeight')
+df_evenu['finalWeight'] = ap.weightmaker(df_evenu,'y_pt', binedgesET, 'newWeight')
 
 print('\nweights applied to even unconverted\n')
 
 # SECOND, even converted
 
 df_evenc['abs_eta'] = abs(df_evenc.y_eta)
-sigvarETA = ap.makebhvar(df_evenc,'abs_eta',binedgesETA,boolslice=df_evenc.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvarETA = ap.makebhvar(df_evenc,'abs_eta',binedgesETA,boolslice=~df_evenc.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvalsETA = ap.histvals(bkgvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsETA = ap.histvals(sigvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
-df_evenc['etaWeight'] = ap.reweight(df_evenc,binedgesETA,ratioforsigETA,'abs_eta')
-df_evenc['newWeight'] = np.multiply( np.array(df_evenc.goodWeight), np.array(df_evenc.etaWeight) )
-
-sigvarET = ap.makebhvar(df_evenc,'y_pt',binedgesET,boolslice=df_evenc.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvarET = ap.makebhvar(df_evenc,'y_pt',binedgesET,boolslice=~df_evenc.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvalsET = ap.histvals(bkgvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsET = ap.histvals(sigvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
-df_evenc['etWeight'] = ap.reweight(df_evenc,binedgesET,ratioforsigET,'y_pt')
-df_evenc['finalWeight'] = np.multiply( np.array(df_evenc.newWeight), np.array(df_evenc.etWeight) )
+df_evenc['newWeight'] = ap.weightmaker(df_evenc,'abs_eta',binedgesETA,'goodWeight')
+df_evenc['finalWeight'] = ap.weightmaker(df_evenc,'y_pt', binedgesET, 'newWeight')
 
 print('\nweights applied to even converted\n')
-
 
 # THIRD, odd unconverted
 
 df_oddu['abs_eta'] = abs(df_oddu.y_eta)
-sigvarETA = ap.makebhvar(df_oddu,'abs_eta',binedgesETA,boolslice=df_oddu.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvarETA = ap.makebhvar(df_oddu,'abs_eta',binedgesETA,boolslice=~df_oddu.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvalsETA = ap.histvals(bkgvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsETA = ap.histvals(sigvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
-df_oddu['etaWeight'] = ap.reweight(df_oddu,binedgesETA,ratioforsigETA,'abs_eta')
-df_oddu['newWeight'] = np.multiply( np.array(df_oddu.goodWeight), np.array(df_oddu.etaWeight) )
-
-sigvarET = ap.makebhvar(df_oddu,'y_pt',binedgesET,boolslice=df_oddu.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvarET = ap.makebhvar(df_oddu,'y_pt',binedgesET,boolslice=~df_oddu.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvalsET = ap.histvals(bkgvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsET = ap.histvals(sigvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
-df_oddu['etWeight'] = ap.reweight(df_oddu,binedgesET,ratioforsigET,'y_pt')
-df_oddu['finalWeight'] = np.multiply( np.array(df_oddu.newWeight), np.array(df_oddu.etWeight) )
+df_oddu['newWeight'] = ap.weightmaker(df_oddu,'abs_eta',binedgesETA,'goodWeight')
+df_oddu['finalWeight'] = ap.weightmaker(df_oddu,'y_pt', binedgesET, 'newWeight')
 
 print('\nweights applied to odd unconverted\n')
-
 
 #LAST, odd converted
 
 df_oddc['abs_eta'] = abs(df_oddc.y_eta)
-sigvarETA = ap.makebhvar(df_oddc,'abs_eta',binedgesETA,boolslice=df_oddc.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvarETA = ap.makebhvar(df_oddc,'abs_eta',binedgesETA,boolslice=~df_oddc.y_isTruthMatchedPhoton,weightname='goodWeight')
-bkgvalsETA = ap.histvals(bkgvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsETA = ap.histvals(sigvarETA)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
-df_oddc['etaWeight'] = ap.reweight(df_oddc,binedgesETA,ratioforsigETA,'abs_eta')
-df_oddc['newWeight'] = np.multiply( np.array(df_oddc.goodWeight), np.array(df_oddc.etaWeight) )
-
-sigvarET = ap.makebhvar(df_oddc,'y_pt',binedgesET,boolslice=df_oddc.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvarET = ap.makebhvar(df_oddc,'y_pt',binedgesET,boolslice=~df_oddc.y_isTruthMatchedPhoton,weightname='newWeight')
-bkgvalsET = ap.histvals(bkgvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-sigvalsET = ap.histvals(sigvarET)  ## SHOULD THESE BE NORMED OR NOT???? (rn going with not -- event count)
-ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
-df_oddc['etWeight'] = ap.reweight(df_oddc,binedgesET,ratioforsigET,'y_pt')
-df_oddc['finalWeight'] = np.multiply( np.array(df_oddc.newWeight), np.array(df_oddc.etWeight) )
+df_oddc['newWeight'] = ap.weightmaker(df_oddc,'abs_eta',binedgesETA,'goodWeight')
+df_oddc['finalWeight'] = ap.weightmaker(df_oddc,'y_pt', binedgesET, 'newWeight')
 
 print('\nweights applied to odd converted\n')
 
@@ -319,7 +283,7 @@ cdf_oddc = df_oddc[['mcTotWeight','goodWeight', 'finalWeight',
 # ap.picklewrite(df_mc20_gj_clean,'ALLdf_mc20_gj.pickle')  #gj
 # ap.picklewrite(df_mc20_jj_clean,'ALLdf_mc20_jj.pickle')  #jj
 
-version = 'BACKW25mil_TESTwWEIGHT'
+# version = 'BACKW25mil_TESTwWEIGHT'
 
 # ap.picklewrite(df_mc20_clean,version+'df_mc20.pickle',filepath='/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/picklefiles/')  #all combined and shuffled
 
