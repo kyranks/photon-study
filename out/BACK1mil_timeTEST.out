@@ -1,0 +1,63 @@
+loading in ROOT files:
+starting at entry  -1000000  ending at entry  None
+time:  1.1444091796875e-05
+df_mc20a_gjfull: (1000000, 20) time:  3.6467223167419434
+df_mc20a_jjfull: (1000000, 20) time:  4.862999439239502
+df_mc20d_gjfull: (1000000, 20) time:  6.4832704067230225
+df_mc20d_jjfull: (1000000, 20) time:  7.8097875118255615
+df_mc20e_gjfull: (1000000, 20) time:  9.498035907745361
+df_mc20e_jjfull: (1000000, 20) time:  11.102705478668213
+files imported.
+time taken:  11.102729797363281
+
+a,d,e slices combined. time taken:  1.7840445041656494
+
+after OQ pass gj:  (3000000, 20)
+after OQ pass jj:  (3000000, 20)
+OQ done. time taken:  0.813913106918335
+
+
+after E_T presel gj:  (2966270, 20)
+after E_T presel jj:  (891606, 20)
+E_T presel done. time taken:  0.2851076126098633
+
+
+after eta presel gj:  (2962745, 20)
+after eta presel jj:  (883148, 20)
+eta presel done. time taken:  0.17797589302062988
+
+
+after Truth matching gj:  (2743044, 20)
+after Truth matching jj:  (878259, 20)
+truth matching done. time taken:  0.1857130527496338
+
+goodWeight created. time taken:  0.010934829711914062
+
+HadLeakage created. time taken:  73.70444560050964
+
+DFs combined, shuffled. time taken:  2.010178327560425
+
+stand. var.s created. time taken:  0.20175766944885254
+
+conv and unconv separated
+conv., unconv. :  (1570971, 32) (2050332, 32)
+time taken:  1.378438949584961
+
+
+ETA and E_T weights applied to converted
+time taken:  68.93636584281921
+
+ETA and E_T weights applied to unconverted
+time taken:  117.894460439682
+time for both:  186.83087062835693
+
+
+even and odd and conv. and unconv. separated
+conv. (even, odd) --  (785486, 37) (785485, 37)
+unconv. (even, odd) --  (1025166, 37) (1025166, 37)
+time taken:  1.408268690109253
+
+columns cleaned up. time taken:  0.5469098091125488
+
+files saved! - to version  BACK1mil_timeTEST
+time taken for whole program:  281.8122580051422
