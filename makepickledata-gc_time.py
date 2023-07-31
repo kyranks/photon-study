@@ -239,7 +239,8 @@ print()
 stepstart = time.time()
 
 binedgesETA = [0,0.6,0.8,1.15,1.37,1.52,1.81,2.01,2.37]
-binedgesET = [0,25,30,35,40,45,50,60,80,100,120,200,500,10000]
+binedgesET = [0,25,30,35,40,45,50,60,80,100,120,200,500,10000,float("inf")]
+# From Florian: [20, 25), [25, 30), [30, 40), [40, 50), [50, 60), [60, 80), [80, 100), [100, 250), [250, 1000), [1000, ∞)
 
 df_conv['abs_eta'] = abs(df_conv.y_eta)
 df_conv['newWeight'] = ap.weightmaker(df_conv,'abs_eta',binedgesETA,'goodWeight')

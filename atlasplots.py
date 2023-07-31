@@ -227,7 +227,7 @@ def ATLAShist(hist1,hist2,label='variable name',minmax=[-2,2],figname=False,log=
 #-----------------------------------------------------------------------------------------------------------
 
 
-def ATLAShist4(hist1,hist2,h1nc,h2nc,label='variable name',minmax=[-2,2],figname=False,log=True,norm=True,totalnorm=True,label1=r'single $\gamma$ conv.',label2=r'fake photons conv.',label3=r'single $\gamma$ non-conv.', label4=r'fake photons non-conv.'):
+def ATLAShist4(hist1,hist2,h1nc,h2nc,label='variable name',minmax=[-2,2],figname=False,log=True,norm=True,totalnorm=True,label1=r'single $\gamma$ conv.',label2=r'fake photons conv.',label3=r'single $\gamma$ unconv.', label4=r'fake photons unconv.'):
     '''
     right now, hist1 is for converted single photons (gj), hist2 is for converted fakes (jj)  - boosthistograms
     and h1nc is nonconverted single photons, h2nc is nonconverted fakes
@@ -448,10 +448,12 @@ def reweight(df,binedges,ratiolist,PTorETA='y_pt',sigorbkg='sig'):
         print('please pick \'sig\' or \'bkg\' for <sigorbkg>')
         return None
     
+    np.nan_to_num(ratiolist, copy=False, nan=1., posinf=1.)
+    
     eventlist = np.array(df[PTorETA])
     sigbkglist = np.array(df['y_isTruthMatchedPhoton'])
     
-    reweightlist = np.array(pd.cut(eventlist,binedges,labels=ratiolist,ordered=False))
+    reweightlist = np.array(pd.cut(eventlist,binedges,labels=ratiolist,include_lowest=True,ordered=False))
     
     if truthsig == True:
         reweightlist[~sigbkglist] = 1.
