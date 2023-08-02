@@ -29,8 +29,9 @@ version = sys.argv[3]
 
 folder = '/eos/atlas/atlascerngroupdisk/perf-egamma/InclusivePhotons'
 branches = ['evtWeight', 'mcWeight', 'mcTotWeight', 'yWeight', 'y_passOQ', 'y_pt', 'y_eta', 
-            'y_isTruthMatchedPhoton', 'y_convType', 'y_Rhad1', 'y_Rhad',       #do we need y_convType thats not truth?
-            'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1']
+            'y_isTruthMatchedPhoton', 'y_convType', 'y_Rhad1', 'y_Rhad',       
+            'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1',
+            'y_iso_FixedCutLoose', 'y_iso_FixedCutTight', 'y_iso_FixedCutTightCaloOnly', 'y_topoetcone20ptCorrection', 'y_topoetcone30ptCorrection', 'y_topoetcone40ptCorrection', 'y_IsLoose', 'y_IsLoosePrime2', 'y_IsLoosePrime3', 'y_IsLoosePrime4', 'y_IsTight', 'y_IsEMTight']
 
 
 # entry_start = -25000001  #None if want default all, neg if counting from end (ex. -1000)
@@ -286,28 +287,32 @@ df_evenu = df_evenu[['mcTotWeight','goodWeight', 'finalWeight',
                                'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1', 
                                'HadLeakage_stand', 'y_Reta_stand', 'y_Rphi_stand', 'y_weta2_stand',
                                'y_wtots1_stand', 'y_weta1_stand', 'y_fracs1_stand', 'y_deltae_stand',
-                               'y_Eratio_stand', 'y_f1_stand']]
+                               'y_Eratio_stand', 'y_f1_stand',
+                    'y_iso_FixedCutLoose', 'y_iso_FixedCutTight', 'y_iso_FixedCutTightCaloOnly', 'y_topoetcone20ptCorrection', 'y_topoetcone30ptCorrection', 'y_topoetcone40ptCorrection', 'y_IsLoose', 'y_IsLoosePrime2', 'y_IsLoosePrime3', 'y_IsLoosePrime4', 'y_IsTight', 'y_IsEMTight']]
 df_evenc = df_evenc[['mcTotWeight','goodWeight', 'finalWeight',
                       'y_pt', 'y_eta', 'y_isTruthMatchedPhoton', 'y_convType',
                                'HadLeakage', 'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 
                                'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1', 
                                'HadLeakage_stand', 'y_Reta_stand', 'y_Rphi_stand', 'y_weta2_stand',
                                'y_wtots1_stand', 'y_weta1_stand', 'y_fracs1_stand', 'y_deltae_stand',
-                               'y_Eratio_stand', 'y_f1_stand']]
+                               'y_Eratio_stand', 'y_f1_stand',
+                    'y_iso_FixedCutLoose', 'y_iso_FixedCutTight', 'y_iso_FixedCutTightCaloOnly', 'y_topoetcone20ptCorrection', 'y_topoetcone30ptCorrection', 'y_topoetcone40ptCorrection', 'y_IsLoose', 'y_IsLoosePrime2', 'y_IsLoosePrime3', 'y_IsLoosePrime4', 'y_IsTight', 'y_IsEMTight']]
 df_oddu = df_oddu[['mcTotWeight','goodWeight', 'finalWeight',
                       'y_pt', 'y_eta', 'y_isTruthMatchedPhoton', 'y_convType',
                                'HadLeakage', 'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 
                                'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1', 
                                'HadLeakage_stand', 'y_Reta_stand', 'y_Rphi_stand', 'y_weta2_stand',
                                'y_wtots1_stand', 'y_weta1_stand', 'y_fracs1_stand', 'y_deltae_stand',
-                               'y_Eratio_stand', 'y_f1_stand']]
+                               'y_Eratio_stand', 'y_f1_stand',
+                  'y_iso_FixedCutLoose', 'y_iso_FixedCutTight', 'y_iso_FixedCutTightCaloOnly', 'y_topoetcone20ptCorrection', 'y_topoetcone30ptCorrection', 'y_topoetcone40ptCorrection', 'y_IsLoose', 'y_IsLoosePrime2', 'y_IsLoosePrime3', 'y_IsLoosePrime4', 'y_IsTight', 'y_IsEMTight']]
 df_oddc = df_oddc[['mcTotWeight','goodWeight', 'finalWeight',
                       'y_pt', 'y_eta', 'y_isTruthMatchedPhoton', 'y_convType',
                                'HadLeakage', 'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 
                                'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1', 
                                'HadLeakage_stand', 'y_Reta_stand', 'y_Rphi_stand', 'y_weta2_stand',
                                'y_wtots1_stand', 'y_weta1_stand', 'y_fracs1_stand', 'y_deltae_stand',
-                               'y_Eratio_stand', 'y_f1_stand']]
+                               'y_Eratio_stand', 'y_f1_stand',
+                  'y_iso_FixedCutLoose', 'y_iso_FixedCutTight', 'y_iso_FixedCutTightCaloOnly', 'y_topoetcone20ptCorrection', 'y_topoetcone30ptCorrection', 'y_topoetcone40ptCorrection', 'y_IsLoose', 'y_IsLoosePrime2', 'y_IsLoosePrime3', 'y_IsLoosePrime4', 'y_IsTight', 'y_IsEMTight']]
 
 #reset indices?, nah rn they're even and odd
 
