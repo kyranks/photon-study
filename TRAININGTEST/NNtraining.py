@@ -36,7 +36,7 @@ print()
 version = 'full_v01'
 converted = False   #True or False
 first = 1000000   #only takes first <first> events
-firststr = '1mil'
+firststr = '1mil'  #for filenames
 stand = True   #if using standardized variable or not
 weightstr = 'finalWeight'    #either 'finalWeight' for E_T and eta renorm. or 'goodWeight' for not  (can be equWeight if have made that)
 method = 'train'
