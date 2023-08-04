@@ -33,11 +33,11 @@ print()
 #------------------------------------------------------------------------------------------------------------------------
 #CHANGABLE PARAMETERS
 
-version = 'full_v01'
-converted = False   #True or False
-first = 1000000   #only takes first <first> events
-firststr = '1mil'  #for filenames
-stand = True   #if using standardized variable or not
+version = 'full_v02'
+converted = True   #True or False
+first = 500000   #only takes first <first> events
+firststr = '.5mil'  #for filenames
+stand = True   #if using standardized variable or not, True or False
 weightstr = 'finalWeight'    #either 'finalWeight' for E_T and eta renorm. or 'goodWeight' for not  (can be equWeight if have made that)
 method = 'train'
 #------------------------------------------------------------------------------------------------------------------------
@@ -45,27 +45,28 @@ method = 'train'
 
 print('loading data...');print()
 stepstart = time.time()
+currentpath = '/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/TRAININGTEST/'
 
 if converted == True:
     convlabel = 'conv'
-    with open('data/'+version+'_ec2mil_a.pickle', 'rb') as file:    #this can be changed to ec2mil_z or concat. both or ec1mil
+    with open(currentpath+'data/'+version+'_ec2mil_a.pickle', 'rb') as file:    #this can be changed to ec2mil_z or concat. both or ec1mil
         df_even = pickle.load(file)
         df_even = df_even.iloc[:first]
-        print('data/'+version+'_ec2mil_a.pickle loaded')
-    with open('data/'+version+'_oc2mil_a.pickle', 'rb') as file:    #this can be changed to ec2mil_z or concat both or ec1mil
+        print(currentpath+'data/'+version+'_ec2mil_a.pickle loaded')
+    with open(currentpath+'data/'+version+'_oc2mil_a.pickle', 'rb') as file:    #this can be changed to ec2mil_z or concat both or ec1mil
         df_odd = pickle.load(file)
         df_odd = df_odd.iloc[:first]
-        print('data/'+version+'_oc2mil_a.pickle loaded')
+        print(currentpath+'data/'+version+'_oc2mil_a.pickle loaded')
 elif converted == False:
     convlabel = 'unconv'
-    with open('data/'+version+'_eu2mil_a.pickle', 'rb') as file:    #this can be changed to eu2mil_z or concat both or eu1mil
+    with open(currentpath+'data/'+version+'_eu2mil_a.pickle', 'rb') as file:    #this can be changed to eu2mil_z or concat both or eu1mil
         df_even = pickle.load(file)
         df_even = df_even.iloc[:first]
-        print('data/'+version+'_eu2mil_a.pickle loaded')
-    with open('data/'+version+'_ou2mil_a.pickle', 'rb') as file:    #this can be changed to eu2mil_z or concat both or eu1mil
+        print(currentpath+'data/'+version+'_eu2mil_a.pickle loaded')
+    with open(currentpath+'data/'+version+'_ou2mil_a.pickle', 'rb') as file:    #this can be changed to eu2mil_z or concat both or eu1mil
         df_odd = pickle.load(file)
         df_odd = df_odd.iloc[:first]
-        print('data/'+version+'_ou2mil_a.pickle loaded')
+        print(currentpath+'data/'+version+'_ou2mil_a.pickle loaded')
 else:
     print('code should never get here. fix!')
 
