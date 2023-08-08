@@ -29,14 +29,17 @@ print('modules imported')
 print('time taken: ', time.time() - starttime)
 print()
 
-
+if sys.argv[1] == 'conv':
+    converted = True
+elif sys.argv[1] == 'unconv':
+    converted = False
 #------------------------------------------------------------------------------------------------------------------------
 #CHANGABLE PARAMETERS
 
 version = 'full_v02'
-converted = True   #True or False
-first = 500000   #only takes first <first> events
-firststr = '.5mil'  #for filenames
+# converted = True   #True or False
+first = 1000000   #only takes first <first> events
+firststr = '1mil'  #for filenames
 stand = True   #if using standardized variable or not, True or False
 weightstr = 'finalWeight'    #either 'finalWeight' for E_T and eta renorm. or 'goodWeight' for not  (can be equWeight if have made that)
 method = 'train'
