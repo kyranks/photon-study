@@ -235,7 +235,6 @@ print()
 
 # REWEIGHTING TO EQUALIZE ETA and E_T DISTRIBUTIONS
 #should i do this for the whole combined? and it'll equal out? for now, separatig conv. and unconv.
-# also to-do: vectorize the ap.reweight function
 
 stepstart = time.time()
 
