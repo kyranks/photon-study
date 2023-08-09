@@ -1,0 +1,6 @@
+executable            = pwdtest.sh
+arguments             = $(ClusterId) $(ProcId)
+output                = pwd.$(ClusterId).$(ProcId).out
+error                 = pwd.$(ClusterId).$(ProcId).err
+log                   = pwd.$(ClusterId).log
+queue

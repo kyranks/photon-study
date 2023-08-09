@@ -1,0 +1,7 @@
+executable            = NNtrain.sh
+arguments             = $(ClusterId)
+output                = out/NNtrain.$(ClusterId).out
+error                 = err/NNtrain.$(ClusterId).err
+log                   = log/NNtrain.$(ClusterId).log
++JobFlavour           = "workday"
+queue

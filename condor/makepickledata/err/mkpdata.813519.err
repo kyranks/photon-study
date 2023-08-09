@@ -1,0 +1,40 @@
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:70: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_mc20_gj['goodWeight'] = df_mc20_gj['mcTotWeight']/df_mc20_gj['yWeight']
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:71: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_mc20_jj['goodWeight'] = df_mc20_jj['mcTotWeight']/df_mc20_jj['yWeight']
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:76: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_mc20_gj['HadLeakage'] = ap.makehadlist(df_mc20_gj)
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:77: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  df_mc20_jj['HadLeakage'] = ap.makehadlist(df_mc20_jj)
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:206: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:214: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:227: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:235: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:249: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:257: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:271: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigETA = bkgvalsETA/sigvalsETA  #will have some nans and infs
+/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/makepickledata.py:279: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsigET = bkgvalsET/sigvalsET  #will have some nans and infs

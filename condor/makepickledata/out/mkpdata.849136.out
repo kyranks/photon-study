@@ -1,0 +1,68 @@
+************************************************************************
+Requested:  views ... 
+ Setting up [4mviews LCG_103:x86_64-centos7-gcc11-opt[0m ... 
+>>>>>>>>>>>>>>>>>>>>>>>>> Information for user <<<<<<<<<<<<<<<<<<<<<<<<<
+************************************************************************
+loading in ROOT files:
+starting at entry  None  ending at entry  None
+time:  1.8835067749023438e-05
+df_mc20a_gjfull: (139655210, 32) time:  2522.1563165187836
+df_mc20a_jjfull: (113068348, 32) time:  6626.825555324554
+df_mc20d_gjfull: (180930384, 32) time:  13352.926952123642
+df_mc20d_jjfull: (132033388, 32) time:  18207.13603591919
+df_mc20e_gjfull: (208190217, 32) time:  25400.603389024734
+df_mc20e_jjfull: (149276082, 32) time:  31423.269377470016
+files imported.
+time taken:  31423.269847154617
+
+a,d,e slices combined. time taken:  2462.9967997074127
+
+after OQ pass gj:  (528775811, 32)
+after OQ pass jj:  (394377818, 32)
+OQ done. time taken:  3203.2148933410645
+
+
+after E_T presel gj:  (373458655, 32)
+after E_T presel jj:  (32581925, 32)
+E_T presel done. time taken:  1320.1943526268005
+
+
+after eta presel gj:  (371421079, 32)
+after eta presel jj:  (32284988, 32)
+eta presel done. time taken:  174.98330974578857
+
+
+after Truth matching gj:  (351436955, 32)
+after Truth matching jj:  (31844012, 32)
+truth matching done. time taken:  134.96385264396667
+
+goodWeight created. time taken:  23.58843493461609
+
+HadLeakage created. time taken:  111.8033983707428
+
+DFs combined, shuffled. time taken:  1286.4075329303741
+
+stand. var.s created. time taken:  148.9588441848755
+
+conv and unconv separated
+conv., unconv. :  (134642335, 44) (248638632, 44)
+time taken:  807.4412624835968
+
+
+ETA and E_T weights applied to converted
+time taken:  207.86012196540833
+
+ETA and E_T weights applied to unconverted
+time taken:  380.2904472351074
+time for both:  588.1506140232086
+
+
+even and odd and conv. and unconv. separated
+conv. (even, odd) --  (67321168, 49) (67321167, 49)
+unconv. (even, odd) --  (124319316, 49) (124319316, 49)
+time taken:  2461.221424341202
+
+columns cleaned up. time taken:  1380.6093769073486
+
+files saved! - to version  full_v02
+time taken for whole program:  46562.119065761566

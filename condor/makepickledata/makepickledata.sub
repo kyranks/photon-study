@@ -1,0 +1,7 @@
+executable            = makepickledata.sh
+arguments             = $(ClusterId) $(ProcId)
+output                = out/mkpdata.$(ClusterId).out
+error                 = err/mkpdata.$(ClusterId).err
+log                   = log/mkpdata.$(ClusterId).log
++JobFlavour           = "testmatch"
+queue

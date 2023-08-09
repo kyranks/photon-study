@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/TRAININGTEST/sizereduction.py", line 31, in <module>
+    with open('/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/picklefiles/'+version+'df_mc20_'+converted+'_'+evenodd+'.pickle', 'rb') as file:
+FileNotFoundError: [Errno 2] No such file or directory: '/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/picklefiles/final_v02df_mc20_unconv_odd.pickle'

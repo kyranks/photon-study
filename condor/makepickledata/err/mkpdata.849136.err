@@ -1,0 +1,8 @@
+/eos/home-k/kyklazek/SWAN_projects/UVic-Photons/photon-study/atlasplots.py:488: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsig = bkgvals/sigvals #will have some nans and infs
+/eos/home-k/kyklazek/SWAN_projects/UVic-Photons/photon-study/atlasplots.py:488: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsig = bkgvals/sigvals #will have some nans and infs
+/eos/home-k/kyklazek/SWAN_projects/UVic-Photons/photon-study/atlasplots.py:488: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsig = bkgvals/sigvals #will have some nans and infs
+/eos/home-k/kyklazek/SWAN_projects/UVic-Photons/photon-study/atlasplots.py:488: RuntimeWarning: invalid value encountered in true_divide
+  ratioforsig = bkgvals/sigvals #will have some nans and infs

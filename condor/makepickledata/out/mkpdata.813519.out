@@ -1,0 +1,42 @@
+************************************************************************
+Requested:  views ... 
+ Setting up [4mviews LCG_103:x86_64-centos7-gcc11-opt[0m ... 
+>>>>>>>>>>>>>>>>>>>>>>>>> Information for user <<<<<<<<<<<<<<<<<<<<<<<<<
+************************************************************************
+loading in ROOT files:
+starting at entry  -25000001  ending at entry  -1
+df_mc20a_gjfull: (25000000, 20)
+df_mc20a_jjfull: (25000000, 20)
+df_mc20d_gjfull: (25000000, 20)
+df_mc20d_jjfull: (25000000, 20)
+df_mc20e_gjfull: (25000000, 20)
+df_mc20e_jjfull: (25000000, 20)
+files imported 
+
+
+after eta presel gj:  (57154731, 22)
+after eta presel jj:  (74137175, 22)
+after E_T presel gj:  (56239593, 22)
+after E_T presel jj:  (14587420, 22)
+
+
+stand vars created
+
+
+even and odd and conv. and unconv. separated
+conv. (even, odd) --  (15380734, 26) (15380733, 26)
+unconv. (even, odd) --  (20032773, 26) (20032773, 26)
+
+
+weights applied to even unconverted
+
+
+weights applied to even converted
+
+
+weights applied to odd unconverted
+
+
+weights applied to odd converted
+
+files saved! - to version  BACKW25mil_TESTwWEIGHT

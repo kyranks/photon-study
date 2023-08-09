@@ -1,0 +1,7 @@
+executable            = makepickledata.py
+arguments             = $(ClusterId) $(ProcId)
+output                = mkpdata2.$(ClusterId).$(ProcId).out
+error                 = mkpdata2.$(ClusterId).$(ProcId).err
+log                   = mkpdata2.$(ClusterId).log
++JobFlavour           = "longlunch"
+queue

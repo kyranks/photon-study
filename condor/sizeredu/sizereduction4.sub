@@ -1,0 +1,7 @@
+executable            = sizereduction4.sh
+arguments             = $(ClusterId) $(ProcId)
+output                = out/sizeredu.$(ClusterId).out
+error                 = err/sizeredu.$(ClusterId).err
+log                   = log/sizeredu.$(ClusterId).log
++JobFlavour           = "espresso"
+queue

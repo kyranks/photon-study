@@ -1,0 +1,4 @@
+  File "/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/TRAININGTEST/NNtraining.py", line 32
+    if sys.argv[1] == 'conv'
+                            ^
+SyntaxError: invalid syntax

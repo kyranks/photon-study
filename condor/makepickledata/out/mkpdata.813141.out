@@ -1,0 +1,20 @@
+************************************************************************
+Requested:  views ... 
+ Setting up [4mviews LCG_103:x86_64-centos7-gcc11-opt[0m ... 
+>>>>>>>>>>>>>>>>>>>>>>>>> Information for user <<<<<<<<<<<<<<<<<<<<<<<<<
+************************************************************************
+loading in ROOT files:
+df_mc20a_gjfull: (1000000, 20)
+df_mc20a_jjfull: (1000000, 20)
+df_mc20d_gjfull: (1000000, 20)
+df_mc20d_jjfull: (1000000, 20)
+df_mc20e_gjfull: (1000000, 20)
+df_mc20e_jjfull: (1000000, 20)
+files imported 
+
+
+ after eta presel:  (2818911, 22)
+after eta presel:  (2966859, 22)
+after E_T presel:  (155, 22)
+after E_T presel:  (154113, 22)
+files saved! to version  NOWEIGHT
