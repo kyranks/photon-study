@@ -29,15 +29,15 @@ print('modules imported')
 print('time taken: ', time.time() - starttime)
 print()
 
-if sys.argv[1] == 'conv':
-    converted = True
-elif sys.argv[1] == 'unconv':
-    converted = False
+# if sys.argv[1] == 'conv':
+#     converted = True
+# elif sys.argv[1] == 'unconv':
+#     converted = False
 #------------------------------------------------------------------------------------------------------------------------
 #CHANGABLE PARAMETERS
 
 version = 'full_v02'
-# converted = True   #True or False
+converted = True   #True or False
 first = 1000000   #only takes first <first> events
 firststr = '1mil'  #for filenames
 stand = True   #if using standardized variable or not, True or False

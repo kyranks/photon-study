@@ -20,7 +20,7 @@ print('everything imported')
 
 # arguments:  version, conv/unconv, even/odd
 #--------------------------------------------------------------------------------
-version = sys.argv[1]     #eg. final_v02
+version = sys.argv[1]     #eg. full_v02
 converted = sys.argv[2]   #'conv' or 'unconv'
 evenodd = sys.argv[3]     #'even' or 'odd'
 firstlast = 2000000  #does first and last ___ events
