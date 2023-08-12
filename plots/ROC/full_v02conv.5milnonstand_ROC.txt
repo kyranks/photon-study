@@ -1,0 +1,14 @@
+Matching Background Rejection Threshold:
+NN threshold: 0.8154291
+Background Rejection: 0.9501903030918512
+Sig Eff. of NN:      0.7627807338193205
+Sig Eff. of TightID: 0.773431576563179
+NN better than TightID? False by 0.010650842743858413
+
+Matching Signal Efficiency Threshold:
+NN threshold: 0.8039186
+Signal Efficiency: 0.773430530690416
+Bkg Rej. of NN:      0.948335922962041
+Bkg Rej. of TightID: 0.9501900284372565
+NN better than TightID? False by 0.0018541054752155839
+
