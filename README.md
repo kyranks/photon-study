@@ -23,7 +23,7 @@ The script performs these tasks, in order:
 - new weights are created, labelled `goodWeight`, which are comprised of the `mcTotWeight`/`yWeight`, to remove photon Scale Factors.
 - the new variable `HadLeakage` is created out of the variables `y_Rhad` and `y_Rhad1`, with certain $\eta$ selections. To see in detail, look at the `makehadlist` function in `atlasplots.py`.
 - the events of the DataFrames are combined into one full DF (gj and jj), shuffled and, indices reset.
-- standardized versions of the trainanble variables (`'y_Rhad1', 'y_Rhad', 'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1'`) are created, as is usually done in Neural Network data prep.
+- standardized versions of the trainable variables (`'y_Rhad1', 'y_Rhad', 'y_Reta', 'y_weta2', 'y_Rphi', 'y_wtots1', 'y_weta1', 'y_fracs1', 'y_deltae', 'y_Eratio', 'y_f1'`) are created, as is usually done in Neural Network data prep.
 - the converted and unconverted events are separated, via `y_convType > 0` and `y_convType == 0`.
 - all the signal events were reweighted, such that the binned $E_T$ and $\eta$ distributions of signal and background matched in weighted event count. This creates a new column of weights called `finalWeight`. This was also taken from [Florian's slides](https://indico.cern.ch/event/1076972/contributions/4531976/attachments/2310873/3932455/Photon%20ID%20ML.pdf).
 - events were split by Even and Odd indices (event numbers, but after resetting after shuffling). This was done to be able to use [John McGowan's Neural Network training functions and scripts](https://gitlab.cern.ch/atlas-physics/sm/ew/wgamma-vbs-run2/analysis_scripts/-/tree/master/NN_training).
@@ -61,17 +61,19 @@ After these files were created the Nerual Network was trained, using the `NNtrai
 
 To run `TRAININGTEST/NNtraining.py`, see `condor/NNtrain`. This script takes no arguments (although in some previous version it took one, as seen in `condor/NNtrain/NNtrain.sh`) but has changeable parameters in the code (lines 39-45). The parameters are `version` which is the version string, `converted` which can be `True` or `False` for converted or unconverted, `first` which mean the script only trains on the first `first` events, `firststr` which is a string version of `first` for output filenames, `stand` which can be `True` or `False` for using standardized or regular variables for training, `weightstr` which is the string of the weight name used for training, and `method` which was brought over from John's code and for the purpose of this exploration always equals `'train'`.
 
-To run this script, rn `python TRAININGTEST/NNtraining.py`
+To run this script, run `python TRAININGTEST/NNtraining.py`
 
 The script performs these tasks in order:
 - it does something too
 - explain all the plots it makes and where it saves them
+- saves plots (Loss over Epochs, ROC Curves, and Validation Plots) to `TRAININGTEST/plots/`
 
 where it saves everything, and where to find output print files of the training losses etc. (condor/NNtrain/out/)
 
 -----------------------------------------------------------------------------------------
-Then, mostly doing plotting in Notebooks. Explain the plotting, kind of in order. Mention the new script, if have it done. Talk about what plots were made how and where they were saved.   PUT IN ATLASPLOTS.PY SOMEWHERE
+Then, mostly doing plotting in Notebooks. Explain the plotting, kind of in order. Talk about what plots were made how and where they were saved.   PUT IN `atlasplots.py` SOMEWHERE
 
-Then after, you can make a list of Notebooks that weren't mentioned and what they do / what their purpose is. And mention if theyre depracated/old code.
+### - more plots were made (in the `./plots/` folder) via the notebooks `12ExploringAfterNN.ipynb`, `14MoreExploringAfterNN_ROCandPlots.ipynb`, and `03PhotonPlottingFunction-withfullfiles.ipynb`.
+### - `atlasplots.py` contains most of the functions defined for this project, with documentation of function use in the definition/docstring of each function. It is imported into most scripts as `ap`.
 
-The `condor` folder should also be added, with all the submission code fro batch jobs.
+Then after, you can make a list of Notebooks that weren't mentioned and what they do / what their purpose is. And mention if theyre deprecated/old code.
