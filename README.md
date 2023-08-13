@@ -1,6 +1,6 @@
 # photon-study
 
-Kyran Klazek-Schryer UVic Summer Project, working with using Neural Networks for ATLAS photon detection.
+Kyran Klazek-Schryer UVic Summer Project, working with using Neural Networks for ATLAS photon detection. This project is on the CERN servers under the path `/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/`.
 
 Single Photon Events (signal) were taken from the mc20 files in `/eos/atlas/atlascerngroupdisk/perf-egamma/InclusivePhotons/mc20_gammajet_v09/` and Dijet Events (background) were taken similarly from `/eos/atlas/atlascerngroupdisk/perf-egamma/InclusivePhotons/mc20_jetjet_v09/`. These events were compiled and cuts applied in the `makepickledata-gc_time.py` script. This script was run on the `lxplus` condor batch system, using the `.sub` file contained in the `condor/makepickledata/` folder. Many of the functions made for this photon study exploration can be found in the `atlasplots.py` file, which is also imported into each script as `ap`.
 
@@ -29,6 +29,8 @@ The script performs these tasks, in order:
 - events were split by Even and Odd indices (event numbers, but after resetting after shuffling). This was done to be able to use [John McGowan's Neural Network training functions and scripts](https://gitlab.cern.ch/atlas-physics/sm/ew/wgamma-vbs-run2/analysis_scripts/-/tree/master/NN_training).
 - only certain branches of the final DataFrames were saved, as seen in lines 283-314. These reduced files were then saved to the `picklefiles/` folder, labelled according to version, conversion, odd/even.
 
+*Note: although not in this git repository, the files created from this script are on the `eos` file system under `/eos/user/k/kyklazek/SWAN_projects/UVic-Photons/photon-study/picklefiles`.*
+
 The outputted print statements of the time taken for each step can be seen in `condor/makepickledata/out/`.
 
 *Note: from this script and all others, version `full_v01` contains all events but just certain branches, and version `full_v02` contains all events with added branches for TightID and IsLoose and isolation variables as well.*
@@ -43,7 +45,7 @@ To run `TRAININGTEST/sizereduction.py`, see `condor/sizeredu/`. This script take
 
 To run this script, say for the even unconverted *full* pickle file from version 'full_v02', the command would be: `python TRAININGTEST/sizereduction.py full_v02 unconv even`.
 
-This would output the files `TRAININGTEST/data/full_v02_eu2mil_a.pickle` and `TRAININGTEST/data/full_v02_eu2mil_a.pickle` with the first 2 million and last 2 million events, respectively, of the original full pickle file.
+This would output the files `TRAININGTEST/data/full_v02_eu2mil_a.pickle` and `TRAININGTEST/data/full_v02_eu2mil_z.pickle` with the first 2 million and last 2 million events, respectively, of the original full pickle file.
 
 The script performs these tasks in this order
 - opens the full pickle file saved by the above script, with the specifications provided.
